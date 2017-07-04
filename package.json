@@ -1,0 +1,17 @@
+{
+  "name": "change-me",
+  "private": true,
+  "scripts": {
+    "lint": "tslint --project ./tsconfig.json",
+    "compile": "tsc",
+    "start": "npm run compile && npm run lint && node ./target/index.js",
+    "format": "prettier --write './**/*.{ts,js,json}'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^1.10.2",
+    "tslint": "^5.9.1",
+    "tslint-language-service": "^0.9.8",
+    "typescript": "^2.6.2"
+  }
+}

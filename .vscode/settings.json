@@ -1,0 +1,20 @@
+{
+    // We use the language service plugin for this
+    "tslint.enable": false,
+
+    "[typescript]": {
+        "editor.formatOnSave": true
+    },
+    "[json]": {
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.formatOnSave": true
+    },
+
+    // https://github.com/Microsoft/vscode/issues/42243
+    // https://code.visualstudio.com/docs/languages/typescript#_using-newer-typescript-versions
+    // https://github.com/Microsoft/vscode/issues/30069#issuecomment-312732928
+    // https://github.com/Microsoft/vscode/issues/19567
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
