@@ -40,6 +40,12 @@ t.deepEqual(
 );
 ```
 
+## Installation
+
+```
+yarn add shallow-equal-explain
+```
+
 [See the tests](./tests/index.ts) for a full set of examples.
 
 ## Development
