@@ -1,9 +1,9 @@
 import { ofType, unionize } from 'unionize';
 
 export const Explanation = unionize({
-    TopLevelSame: ofType<{}>(),
-    TopLevelDifferent: ofType<{
-        explanation: TopLevelDifferentExplanation;
+    ObjectSame: ofType<{}>(),
+    ObjectDifferent: ofType<{
+        explanation: ObjectDifferentExplanation;
     }>(),
     PropertiesSame: ofType<{}>(),
     PropertiesDifferent: ofType<{
@@ -12,11 +12,11 @@ export const Explanation = unionize({
 });
 export type Explanation = typeof Explanation._Union;
 
-export const TopLevelDifferentExplanation = unionize({
+export const ObjectDifferentExplanation = unionize({
     NotObjectOrNull: ofType<{}>(),
     NonMatchingKeys: ofType<{}>(),
 });
-type TopLevelDifferentExplanation = typeof TopLevelDifferentExplanation._Union;
+type ObjectDifferentExplanation = typeof ObjectDifferentExplanation._Union;
 
 export const PropertyExplanation = unionize({
     Same: ofType<{}>(),

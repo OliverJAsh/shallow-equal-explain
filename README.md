@@ -14,16 +14,16 @@ function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation;
 
 ```ts
 type Explanation =
-    | TopLevelSame
-    | TopLevelDifferent
+    | ObjectSame
+    | ObjectDifferent
     | PropertiesSame
     | PropertiesDifferent;
 ```
 
-`TopLevelDifferent` and `PropertiesDifferent` provide further detail through their `explanation` properties, which have types `TopLevelDifferentExplanation` and `PropertiesExplanation` respectively:
+`ObjectDifferent` and `PropertiesDifferent` provide further detail through their `explanation` properties, which have types `ObjectDifferentExplanation` and `PropertiesExplanation` respectively:
 
 ```ts
-type TopLevelDifferentExplanation = NotObjectOrNull | NonMatchingKeys;
+type ObjectDifferentExplanation = NotObjectOrNull | NonMatchingKeys;
 
 type PropertyExplanation = Same | Different;
 type PropertiesExplanation<Keys extends string> = {

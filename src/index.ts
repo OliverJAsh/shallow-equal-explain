@@ -4,7 +4,7 @@ import {
     Explanation,
     PropertiesExplanation,
     PropertyExplanation,
-    TopLevelDifferentExplanation,
+    ObjectDifferentExplanation,
 } from './types';
 import { soundObjectKeys } from './typescript-helpers';
 
@@ -32,7 +32,7 @@ function is(x: any, y: any): boolean {
 
 export function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation {
     if (is(objA, objB)) {
-        return Explanation.TopLevelSame({});
+        return Explanation.ObjectSame({});
     }
 
     if (
@@ -41,8 +41,8 @@ export function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation {
         typeof objB !== 'object' ||
         objB === null
     ) {
-        return Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
+        return Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NotObjectOrNull({}),
         });
     }
 
@@ -50,8 +50,8 @@ export function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation {
     const keysB = soundObjectKeys(objB);
 
     if (keysA.length !== keysB.length) {
-        return Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
+        return Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NonMatchingKeys({}),
         });
     }
 

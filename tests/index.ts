@@ -6,20 +6,20 @@ import { shallowEqualExplain } from '../src/index';
 import {
     Explanation,
     PropertyExplanation,
-    TopLevelDifferentExplanation,
+    ObjectDifferentExplanation,
 } from '../src/types';
 
 test('returns false if either argument is null', t => {
     t.deepEqual(
         shallowEqualExplain(null, {}),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NotObjectOrNull({}),
         }),
     );
     t.deepEqual(
         shallowEqualExplain({}, null),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -27,17 +27,17 @@ test('returns false if either argument is null', t => {
 });
 
 test('returns true if both arguments are null or undefined', t => {
-    t.deepEqual(shallowEqualExplain(null, null), Explanation.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(null, null), Explanation.ObjectSame({}));
     t.deepEqual(
         shallowEqualExplain(undefined, undefined),
-        Explanation.TopLevelSame({}),
+        Explanation.ObjectSame({}),
     );
 
     t.end();
 });
 
 test('returns true if arguments are not objects and are equal', t => {
-    t.deepEqual(shallowEqualExplain(1, 1), Explanation.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(1, 1), Explanation.ObjectSame({}));
 
     t.end();
 });
@@ -45,7 +45,7 @@ test('returns true if arguments are not objects and are equal', t => {
 test('returns true if arguments are objects and are equal', t => {
     const objA = {};
     const objB = objA;
-    t.deepEqual(shallowEqualExplain(objA, objB), Explanation.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(objA, objB), Explanation.ObjectSame({}));
 
     t.end();
 });
@@ -60,7 +60,7 @@ test('returns true if arguments are shallow equal', t => {
 });
 
 test('returns true when comparing NaN', t => {
-    t.deepEqual(shallowEqualExplain(NaN, NaN), Explanation.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(NaN, NaN), Explanation.ObjectSame({}));
 
     t.deepEqual(
         shallowEqualExplain(
@@ -76,8 +76,8 @@ test('returns true when comparing NaN', t => {
 test('returns false if arguments are not objects and not equal', t => {
     t.deepEqual(
         shallowEqualExplain(1, 2),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -87,8 +87,8 @@ test('returns false if arguments are not objects and not equal', t => {
 test('returns false if only one argument is not an object', t => {
     t.deepEqual(
         shallowEqualExplain(1, {}),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -98,8 +98,8 @@ test('returns false if only one argument is not an object', t => {
 test('returns false if first argument has too many keys', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2, c: 3 }, { a: 1, b: 2 }),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NonMatchingKeys({}),
         }),
     );
 
@@ -109,8 +109,8 @@ test('returns false if first argument has too many keys', t => {
 test('returns false if second argument has too many keys', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }),
-        Explanation.TopLevelDifferent({
-            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
+        Explanation.ObjectDifferent({
+            explanation: ObjectDifferentExplanation.NonMatchingKeys({}),
         }),
     );
 
