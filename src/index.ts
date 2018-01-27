@@ -1,7 +1,15 @@
-// Copied from https://github.com/facebook/fbjs/blob/7da8335b78d669cba263760872f0a45ed16b4d12/packages/fbjs/src/core/shallowEqual.js#L39
+import { fromPairs, values } from 'ramda';
 
-// tslint:disable-next-line no-unbound-method
-const hasOwnProperty = Object.prototype.hasOwnProperty;
+import {
+    Explaination,
+    PropertiesExplaination,
+    PropertyExplaination,
+    TopLevelDifferentExplaination,
+} from './types';
+import { soundObjectKeys } from './typescript-helpers';
+
+// The following function is copied from
+// https://github.com/facebook/fbjs/blob/7da8335b78d669cba263760872f0a45ed16b4d12/packages/fbjs/src/core/shallowEqual.js#L22
 
 /**
  * inlined Object.is polyfill to avoid requiring consumers ship their own
@@ -22,9 +30,9 @@ function is(x: any, y: any): boolean {
     }
 }
 
-export function shallowEqual<A, B>(objA: A, objB: B): boolean {
+export function shallowEqualExplain<A, B>(objA: A, objB: B): Explaination {
     if (is(objA, objB)) {
-        return true;
+        return Explaination.TopLevelSame({});
     }
 
     if (
@@ -33,31 +41,44 @@ export function shallowEqual<A, B>(objA: A, objB: B): boolean {
         typeof objB !== 'object' ||
         objB === null
     ) {
-        return false;
+        return Explaination.TopLevelDifferent({
+            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        });
+    }
+
+    const keysA = soundObjectKeys(objA);
+    const keysB = soundObjectKeys(objB);
+
+    if (keysA.length !== keysB.length) {
+        return Explaination.TopLevelDifferent({
+            explaination: TopLevelDifferentExplaination.NonMatchingKeys({}),
+        });
     }
 
     type AKey = keyof typeof objA;
-    type BKey = keyof typeof objB;
-
-    // tslint:disable-next-line no-any
-    const keysA = (Object.keys(objA) as any) as AKey[];
-    // tslint:disable-next-line no-any
-    const keysB = (Object.keys(objB) as any) as BKey[];
-
-    if (keysA.length !== keysB.length) {
-        return false;
-    }
-
     // Test for A's keys different from B.
-    for (let i = 0; i < keysA.length; i++) {
-        if (
-            !hasOwnProperty.call(objB, keysA[i]) ||
-            // tslint:disable-next-line no-any
-            !is(objA[keysA[i]], ((objB as any) as A)[keysA[i]])
-        ) {
-            return false;
-        }
-    }
+    const propertiesExplaination = fromPairs(
+        keysA.map((keyA): [string, PropertyExplaination] => {
+            const areSame = is(
+                objA[keyA],
+                // To access keys from object a inside object b, we must cast the type.
+                ((objB as {}) as A)[keyA],
+            );
 
-    return true;
+            const explaination = areSame
+                ? PropertyExplaination.Same({})
+                : PropertyExplaination.Different({});
+            return [keyA, explaination];
+        }),
+    ) as PropertiesExplaination<AKey>;
+
+    const areSomePropertiesDifferent = values(propertiesExplaination).some(
+        PropertyExplaination.is.Different,
+    );
+
+    return areSomePropertiesDifferent
+        ? Explaination.PropertiesDifferent({
+              explaination: propertiesExplaination,
+          })
+        : Explaination.PropertiesSame({});
 }

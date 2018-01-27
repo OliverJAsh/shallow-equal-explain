@@ -1,5 +1,5 @@
 {
-  "name": "change-me",
+  "name": "shallow-equal-explain",
   "private": true,
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
@@ -9,8 +9,11 @@
     "format": "prettier --write './**/*.{ts,js,json}'"
   },
   "dependencies": {
+    "@types/ramda": "^0.25.16",
     "@types/tape": "^4.2.31",
-    "tape": "^4.8.0"
+    "ramda": "^0.25.0",
+    "tape": "^4.8.0",
+    "unionize": "^1.0.0"
   },
   "devDependencies": {
     "prettier": "^1.10.2",
