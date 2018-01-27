@@ -4,10 +4,14 @@
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
     "compile": "tsc",
-    "start": "npm run compile && npm run lint && node ./target/index.js",
+    "start": "npm run compile && npm run lint && node ./target/src/index.js",
+    "tests": "npm run compile && npm run lint && node ./target/tests/index.js",
     "format": "prettier --write './**/*.{ts,js,json}'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/tape": "^4.2.31",
+    "tape": "^4.8.0"
+  },
   "devDependencies": {
     "prettier": "^1.10.2",
     "tslint": "^5.9.1",
