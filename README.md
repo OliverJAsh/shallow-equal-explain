@@ -6,28 +6,34 @@ This is useful when you're trying to debug `PureComponent`s, or any use of `shal
 
 `shallowEqualExplain` has type:
 
-``` ts
+```ts
 function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation;
 ```
 
 `Explanation` is defined as:
 
-``` ts
-type Explanation = TopLevelSame | TopLevelDifferent | PropertiesSame | PropertiesDifferent
+```ts
+type Explanation =
+    | TopLevelSame
+    | TopLevelDifferent
+    | PropertiesSame
+    | PropertiesDifferent;
 ```
 
 `TopLevelDifferent` and `PropertiesDifferent` provide further detail through their `explanation` properties, which have types `TopLevelDifferentExplanation` and `PropertiesExplanation` respectively:
 
-``` ts
-type TopLevelDifferentExplanation = NotObjectOrNull | NonMatchingKeys
+```ts
+type TopLevelDifferentExplanation = NotObjectOrNull | NonMatchingKeys;
 
-type PropertyExplanation = Same | Different
-type PropertiesExplanation<Keys extends string> = { [key in keys]: Same | Different };
+type PropertyExplanation = Same | Different;
+type PropertiesExplanation<Keys extends string> = {
+    [key in keys]: Same | Different
+};
 ```
 
 ## Example
 
-``` ts
+```ts
 t.deepEqual(
     shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} }),
     Explanation.PropertiesDifferent({
@@ -48,7 +54,7 @@ yarn add shallow-equal-explain
 
 ## Usage
 
-``` ts
+```ts
 import { shallowEqualExplain } from 'shallow-equal-explain';
 
 shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} });
@@ -56,17 +62,20 @@ shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} });
 
 With React:
 
-``` tsx
+```tsx
 class MyComponent extends React.PureComponent {
     componentDidUpdate(prevProps) {
         const currentProps = this.props;
-        const shallowEqualExplanation = shallowEqualExplain(prevProps, currentProps);
+        const shallowEqualExplanation = shallowEqualExplain(
+            prevProps,
+            currentProps,
+        );
 
         console.log({ prevProps, currentProps, shallowEqualExplanation });
     }
 
-    render () {
-        return <div>My component</div>
+    render() {
+        return <div>My component</div>;
     }
 }
 ```

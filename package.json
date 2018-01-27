@@ -10,7 +10,7 @@
     "prepublishOnly": "npm run cleanTarget && npm run compile && npm run lint",
     "start": "npm run compile && npm run lint && node ./target/src/index.js",
     "tests": "npm run compile && npm run lint && node ./target/tests/index.js",
-    "format": "prettier --write './**/*.{ts,js,json}'"
+    "format": "prettier --write './**/*.{ts,js,json,md}'"
   },
   "files": ["target"],
   "dependencies": {
