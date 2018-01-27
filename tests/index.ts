@@ -24,6 +24,14 @@ test('returns true if arguments are not objects and are equal', t => {
     t.end();
 });
 
+test('returns true if arguments are objects and are equal', t => {
+    const objA = {};
+    const objB = objA;
+    t.equal(shallowEqual(objA, objB), true);
+
+    t.end();
+});
+
 test('returns true if arguments are shallow equal', t => {
     t.equal(shallowEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 }), true);
 
