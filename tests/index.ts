@@ -5,8 +5,8 @@ import test = require('tape');
 import { shallowEqualExplain } from '../src/index';
 import {
     Explanation,
-    PropertyExplanation,
     ObjectDifferentExplanation,
+    PropertyExplanation,
 } from '../src/types';
 
 test('returns false if either argument is null', t => {

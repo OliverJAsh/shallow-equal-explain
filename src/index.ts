@@ -2,9 +2,9 @@ import { fromPairs, values } from 'ramda';
 
 import {
     Explanation,
+    ObjectDifferentExplanation,
     PropertiesExplanation,
     PropertyExplanation,
-    ObjectDifferentExplanation,
 } from './types';
 import { soundObjectKeys } from './typescript-helpers';
 
