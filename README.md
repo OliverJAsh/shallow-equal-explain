@@ -27,7 +27,7 @@ type ObjectDifferentExplanation = NotObjectOrNull | NonMatchingKeys;
 
 type PropertyExplanation = Same | Different;
 type PropertiesExplanation<Keys extends string> = {
-    [key in keys]: Same | Different
+    [key in Keys]: Same | Different
 };
 ```
 
