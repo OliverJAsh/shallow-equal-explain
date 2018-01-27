@@ -2,7 +2,7 @@
   "name": "shallow-equal-explain",
   "main": "./target/src/index.js",
   "typings": "./target/src/index.d.ts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
     "compile": "tsc",
@@ -12,7 +12,9 @@
     "tests": "npm run compile && npm run lint && node ./target/tests/index.js",
     "format": "prettier --write './**/*.{ts,js,json}'"
   },
-  "files": ["target"],
+  "files": [
+    "target"
+  ],
   "dependencies": {
     "ramda": "^0.25.0",
     "unionize": "^1.0.0"
