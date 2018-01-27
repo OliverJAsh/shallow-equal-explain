@@ -1,30 +1,30 @@
 import { ofType, unionize } from 'unionize';
 
-export const Explaination = unionize({
+export const Explanation = unionize({
     TopLevelSame: ofType<{}>(),
     TopLevelDifferent: ofType<{
-        explaination: TopLevelDifferentExplaination;
+        explanation: TopLevelDifferentExplanation;
     }>(),
     PropertiesSame: ofType<{}>(),
     PropertiesDifferent: ofType<{
-        explaination: PropertiesExplaination<string>;
+        explanation: PropertiesExplanation<string>;
     }>(),
 });
-export type Explaination = typeof Explaination._Union;
+export type Explanation = typeof Explanation._Union;
 
-export const TopLevelDifferentExplaination = unionize({
+export const TopLevelDifferentExplanation = unionize({
     NotObjectOrNull: ofType<{}>(),
     NonMatchingKeys: ofType<{}>(),
 });
-type TopLevelDifferentExplaination = typeof TopLevelDifferentExplaination._Union;
+type TopLevelDifferentExplanation = typeof TopLevelDifferentExplanation._Union;
 
-export const PropertyExplaination = unionize({
+export const PropertyExplanation = unionize({
     Same: ofType<{}>(),
     Different: ofType<{}>(),
 });
-export type PropertyExplaination = typeof PropertyExplaination._Union;
+export type PropertyExplanation = typeof PropertyExplanation._Union;
 
-export type PropertiesExplaination<Keys extends string> = Record<
+export type PropertiesExplanation<Keys extends string> = Record<
     Keys,
-    PropertyExplaination
+    PropertyExplanation
 >;

@@ -1,10 +1,10 @@
 import { fromPairs, values } from 'ramda';
 
 import {
-    Explaination,
-    PropertiesExplaination,
-    PropertyExplaination,
-    TopLevelDifferentExplaination,
+    Explanation,
+    PropertiesExplanation,
+    PropertyExplanation,
+    TopLevelDifferentExplanation,
 } from './types';
 import { soundObjectKeys } from './typescript-helpers';
 
@@ -30,9 +30,9 @@ function is(x: any, y: any): boolean {
     }
 }
 
-export function shallowEqualExplain<A, B>(objA: A, objB: B): Explaination {
+export function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation {
     if (is(objA, objB)) {
-        return Explaination.TopLevelSame({});
+        return Explanation.TopLevelSame({});
     }
 
     if (
@@ -41,8 +41,8 @@ export function shallowEqualExplain<A, B>(objA: A, objB: B): Explaination {
         typeof objB !== 'object' ||
         objB === null
     ) {
-        return Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        return Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
         });
     }
 
@@ -50,35 +50,35 @@ export function shallowEqualExplain<A, B>(objA: A, objB: B): Explaination {
     const keysB = soundObjectKeys(objB);
 
     if (keysA.length !== keysB.length) {
-        return Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NonMatchingKeys({}),
+        return Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
         });
     }
 
     type AKey = keyof typeof objA;
     // Test for A's keys different from B.
-    const propertiesExplaination = fromPairs(
-        keysA.map((keyA): [string, PropertyExplaination] => {
+    const propertiesExplanation = fromPairs(
+        keysA.map((keyA): [string, PropertyExplanation] => {
             const areSame = is(
                 objA[keyA],
                 // To access keys from object a inside object b, we must cast the type.
                 ((objB as {}) as A)[keyA],
             );
 
-            const explaination = areSame
-                ? PropertyExplaination.Same({})
-                : PropertyExplaination.Different({});
-            return [keyA, explaination];
+            const explanation = areSame
+                ? PropertyExplanation.Same({})
+                : PropertyExplanation.Different({});
+            return [keyA, explanation];
         }),
-    ) as PropertiesExplaination<AKey>;
+    ) as PropertiesExplanation<AKey>;
 
-    const areSomePropertiesDifferent = values(propertiesExplaination).some(
-        PropertyExplaination.is.Different,
+    const areSomePropertiesDifferent = values(propertiesExplanation).some(
+        PropertyExplanation.is.Different,
     );
 
     return areSomePropertiesDifferent
-        ? Explaination.PropertiesDifferent({
-              explaination: propertiesExplaination,
+        ? Explanation.PropertiesDifferent({
+              explanation: propertiesExplanation,
           })
-        : Explaination.PropertiesSame({});
+        : Explanation.PropertiesSame({});
 }

@@ -7,22 +7,22 @@ This is useful when you're trying to debug `PureComponent`s, or any use of `shal
 `shallowEqualExplain` has type:
 
 ``` ts
-function shallowEqualExplain<A, B>(objA: A, objB: B): Explaination;
+function shallowEqualExplain<A, B>(objA: A, objB: B): Explanation;
 ```
 
-`Explaination` is defined as:
+`Explanation` is defined as:
 
 ``` ts
-type Explaination = TopLevelSame | TopLevelDifferent | PropertiesSame | PropertiesDifferent
+type Explanation = TopLevelSame | TopLevelDifferent | PropertiesSame | PropertiesDifferent
 ```
 
-`TopLevelDifferent` and `PropertiesDifferent` provide further detail through their `explaination` properties, which have types `TopLevelDifferentExplaination` and `PropertiesExplaination` respectively:
+`TopLevelDifferent` and `PropertiesDifferent` provide further detail through their `explanation` properties, which have types `TopLevelDifferentExplanation` and `PropertiesExplanation` respectively:
 
 ``` ts
-type TopLevelDifferentExplaination = NotObjectOrNull | NonMatchingKeys
+type TopLevelDifferentExplanation = NotObjectOrNull | NonMatchingKeys
 
-type PropertyExplaination = Same | Different
-type PropertiesExplaination<Keys extends string> = { [key in keys]: Same | Different };
+type PropertyExplanation = Same | Different
+type PropertiesExplanation<Keys extends string> = { [key in keys]: Same | Different };
 ```
 
 ## Example
@@ -30,11 +30,11 @@ type PropertiesExplaination<Keys extends string> = { [key in keys]: Same | Diffe
 ``` ts
 t.deepEqual(
     shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} }),
-    Explaination.PropertiesDifferent({
-        explaination: {
-            a: PropertyExplaination.Same({}),
-            b: PropertyExplaination.Same({}),
-            c: PropertyExplaination.Different({}),
+    Explanation.PropertiesDifferent({
+        explanation: {
+            a: PropertyExplanation.Same({}),
+            b: PropertyExplanation.Same({}),
+            c: PropertyExplanation.Different({}),
         },
     }),
 );
@@ -60,9 +60,9 @@ With React:
 class MyComponent extends React.PureComponent {
     componentDidUpdate(prevProps) {
         const currentProps = this.props;
-        const shallowEqualExplaination = shallowEqualExplain(prevProps, currentProps);
+        const shallowEqualExplanation = shallowEqualExplain(prevProps, currentProps);
 
-        console.log({ prevProps, currentProps, shallowEqualExplaination });
+        console.log({ prevProps, currentProps, shallowEqualExplanation });
     }
 
     render () {

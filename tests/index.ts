@@ -4,22 +4,22 @@ import test = require('tape');
 
 import { shallowEqualExplain } from '../src/index';
 import {
-    Explaination,
-    PropertyExplaination,
-    TopLevelDifferentExplaination,
+    Explanation,
+    PropertyExplanation,
+    TopLevelDifferentExplanation,
 } from '../src/types';
 
 test('returns false if either argument is null', t => {
     t.deepEqual(
         shallowEqualExplain(null, {}),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
         }),
     );
     t.deepEqual(
         shallowEqualExplain({}, null),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -27,17 +27,17 @@ test('returns false if either argument is null', t => {
 });
 
 test('returns true if both arguments are null or undefined', t => {
-    t.deepEqual(shallowEqualExplain(null, null), Explaination.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(null, null), Explanation.TopLevelSame({}));
     t.deepEqual(
         shallowEqualExplain(undefined, undefined),
-        Explaination.TopLevelSame({}),
+        Explanation.TopLevelSame({}),
     );
 
     t.end();
 });
 
 test('returns true if arguments are not objects and are equal', t => {
-    t.deepEqual(shallowEqualExplain(1, 1), Explaination.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(1, 1), Explanation.TopLevelSame({}));
 
     t.end();
 });
@@ -45,7 +45,7 @@ test('returns true if arguments are not objects and are equal', t => {
 test('returns true if arguments are objects and are equal', t => {
     const objA = {};
     const objB = objA;
-    t.deepEqual(shallowEqualExplain(objA, objB), Explaination.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(objA, objB), Explanation.TopLevelSame({}));
 
     t.end();
 });
@@ -53,21 +53,21 @@ test('returns true if arguments are objects and are equal', t => {
 test('returns true if arguments are shallow equal', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 }),
-        Explaination.PropertiesSame({}),
+        Explanation.PropertiesSame({}),
     );
 
     t.end();
 });
 
 test('returns true when comparing NaN', t => {
-    t.deepEqual(shallowEqualExplain(NaN, NaN), Explaination.TopLevelSame({}));
+    t.deepEqual(shallowEqualExplain(NaN, NaN), Explanation.TopLevelSame({}));
 
     t.deepEqual(
         shallowEqualExplain(
             { a: 1, b: 2, c: 3, d: NaN },
             { a: 1, b: 2, c: 3, d: NaN },
         ),
-        Explaination.PropertiesSame({}),
+        Explanation.PropertiesSame({}),
     );
 
     t.end();
@@ -76,8 +76,8 @@ test('returns true when comparing NaN', t => {
 test('returns false if arguments are not objects and not equal', t => {
     t.deepEqual(
         shallowEqualExplain(1, 2),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -87,8 +87,8 @@ test('returns false if arguments are not objects and not equal', t => {
 test('returns false if only one argument is not an object', t => {
     t.deepEqual(
         shallowEqualExplain(1, {}),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NotObjectOrNull({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NotObjectOrNull({}),
         }),
     );
 
@@ -98,8 +98,8 @@ test('returns false if only one argument is not an object', t => {
 test('returns false if first argument has too many keys', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2, c: 3 }, { a: 1, b: 2 }),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NonMatchingKeys({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
         }),
     );
 
@@ -109,8 +109,8 @@ test('returns false if first argument has too many keys', t => {
 test('returns false if second argument has too many keys', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 }),
-        Explaination.TopLevelDifferent({
-            explaination: TopLevelDifferentExplaination.NonMatchingKeys({}),
+        Explanation.TopLevelDifferent({
+            explanation: TopLevelDifferentExplanation.NonMatchingKeys({}),
         }),
     );
 
@@ -120,11 +120,11 @@ test('returns false if second argument has too many keys', t => {
 test('returns false if arguments are not shallow equal', t => {
     t.deepEqual(
         shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} }),
-        Explaination.PropertiesDifferent({
-            explaination: {
-                a: PropertyExplaination.Same({}),
-                b: PropertyExplaination.Same({}),
-                c: PropertyExplaination.Different({}),
+        Explanation.PropertiesDifferent({
+            explanation: {
+                a: PropertyExplanation.Same({}),
+                b: PropertyExplanation.Same({}),
+                c: PropertyExplanation.Different({}),
             },
         }),
     );
