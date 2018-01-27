@@ -57,7 +57,7 @@ shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} });
 With React:
 
 ``` tsx
-class MyComponent extends React.Component {
+class MyComponent extends React.PureComponent {
     componentDidUpdate(prevProps) {
         const currentProps = this.props;
         const shallowEqualExplaination = shallowEqualExplain(prevProps, currentProps);
