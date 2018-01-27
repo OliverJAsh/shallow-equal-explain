@@ -12,9 +12,7 @@
     "tests": "npm run compile && npm run lint && node ./target/tests/index.js",
     "format": "prettier --write './**/*.{ts,js,json,md}'"
   },
-  "files": [
-    "target"
-  ],
+  "files": ["target"],
   "dependencies": {
     "ramda": "^0.25.0",
     "unionize": "^1.0.0"
