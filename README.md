@@ -46,6 +46,31 @@ t.deepEqual(
 yarn add shallow-equal-explain
 ```
 
+## Usage
+
+``` ts
+import { shallowEqualExplain } from 'shallow-equal-explain';
+
+shallowEqualExplain({ a: 1, b: 2, c: {} }, { a: 1, b: 2, c: {} });
+```
+
+With React:
+
+``` tsx
+class MyComponent extends React.Component {
+    componentDidUpdate(prevProps) {
+        const currentProps = this.props;
+        const shallowEqualExplaination = shallowEqualExplain(prevProps, currentProps);
+
+        console.log({ prevProps, currentProps, shallowEqualExplaination });
+    }
+
+    render () {
+        return <div>My component</div>
+    }
+}
+```
+
 [See the tests](./tests/index.ts) for a full set of examples.
 
 ## Development
