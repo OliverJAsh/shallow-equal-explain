@@ -2,7 +2,7 @@
   "name": "shallow-equal-explain",
   "main": "./target/src/index.js",
   "typings": "./target/src/index.d.ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
     "compile": "tsc",
